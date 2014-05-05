@@ -18,6 +18,15 @@ And then execute:
 Usage
 ------
 
+    # Capfile
+
+    require 'capistrano/basement'
+
+    # Or if you want to pick specific tasks
+    require 'capistrano/basement/base'
+    require 'capistrano/basement/nginx'
+    ...
+
 Configurable options:
 
     set :stage,             "production"
