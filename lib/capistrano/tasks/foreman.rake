@@ -9,7 +9,7 @@ namespace :foreman do
   task :export do
     on roles(:app) do |host|
       within release_path do
-        sudo "bundle exec foreman export upstart /etc/init -a #{fetch(:application)} -u #{fetch(:user)} -l /var/log/#{fetch(:application)}"
+        sudo "bundle exec foreman export upstart /etc/init -a #{fetch(:application)} -u #{fetch(:user)} -d #{current_path} -l /var/log/#{fetch(:application)}"
       end
     end
   end
