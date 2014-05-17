@@ -1,6 +1,5 @@
 namespace :load do
   task :defaults do
-    set :rails_env, { fetch(:rack_env, fetch(:rails_env, fetch(:stage))) }
     set :puma_init_name, "#{fetch(:application)}-web"
     set :puma_pid_path,  "#{shared_path}/tmp/pids/puma.pid"
   end
@@ -10,7 +9,7 @@ namespace :puma do
   desc "Start puma workers"
   task :start do
     on roles(:app) do
-      with rails_env: fetch(:rails_env) do
+      with rails_env: fetch(:env), rack_env: fetch(:env) do
         sudo "start #{fetch(:puma_init_name)}"
       end
     end
@@ -19,7 +18,7 @@ namespace :puma do
   desc "Stop puma workers"
   task :stop do
     on roles(:app) do
-      with rails_env: fetch(:rails_env) do
+      with rails_env: fetch(:env), rack_env: fetch(:env) do
         sudo "stop #{fetch(:puma_init_name)}"
       end
     end
@@ -29,7 +28,7 @@ namespace :puma do
   task :smart_restart do
     on roles(:app) do
       within current_path do
-        with rails_env: fetch(:rails_env) do
+        with rails_env: fetch(:env), rack_env: fetch(:env) do
           if test("[ -f #{fetch(:puma_pid_path)} ]") && test("kill -0 $( cat #{fetch(:puma_pid_path)} )")
             execute :bundle, :exec, :pumactl, "-P tmp/pids/puma.pid", "phased-restart"
           else

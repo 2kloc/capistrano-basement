@@ -1,9 +1,3 @@
-namespace :load do
-  task :defaults do
-    set :rails_env, { fetch(:rack_env, fetch(:rails_env, fetch(:stage))) }
-  end
-end
-
 namespace :db do
   task :backup do
     ask(:backup_name, "snapshots")
@@ -16,7 +10,7 @@ namespace :db do
   task :seed do
     on roles(:app) do
       within release_path do
-        with rails_env: fetch(:rails_env) do
+        with rails_env: fetch(:env), rack_env: fetch(:env) do
           execute :rake, "db:seed"
         end
       end

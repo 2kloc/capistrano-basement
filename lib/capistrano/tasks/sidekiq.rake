@@ -1,6 +1,5 @@
 namespace :load do
   task :defaults do
-    set :rails_env, { fetch(:rack_env, fetch(:rails_env, fetch(:stage))) }
     set :sidekiq_init_name, "#{fetch(:application)}-worker"
     set :sidekiq_pid_path,  "#{shared_path}/tmp/pids/sidekiq.pid"
   end
@@ -12,7 +11,7 @@ namespace :sidekiq do
     on roles(:app) do
       if test("[ -f #{fetch(:sidekiq_pid_path)} ]") && test("kill -0 $( cat #{fetch(:sidekiq_pid_path)} )")
         within current_path do
-          with rails_env: fetch(:rails_env) do
+          with rails_env: fetch(:env), rack_env: fetch(:env) do
             execute :bundle, :exec, :sidekiqctl, "quiet", fetch(:sidekiq_pid_path)
           end
         end
@@ -24,7 +23,7 @@ namespace :sidekiq do
   desc "Start sidekiq workers"
   task :start do
     on roles(:app) do
-      with rails_env: fetch(:rails_env) do
+      with rails_env: fetch(:env), rack_env: fetch(:env) do
         sudo "start #{fetch(:sidekiq_init_name)}"
       end
     end
@@ -35,7 +34,7 @@ namespace :sidekiq do
   task :stop do
     on roles(:app) do
       if test("[ -f #{fetch(:sidekiq_pid_path)} ]") && test("kill -0 $( cat #{fetch(:sidekiq_pid_path)} )")
-        with rails_env: fetch(:rails_env) do
+        with rails_env: fetch(:env), rack_env: fetch(:env) do
           sudo "stop #{fetch(:sidekiq_init_name)}"
         end
       end

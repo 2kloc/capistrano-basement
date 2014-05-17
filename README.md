@@ -30,7 +30,7 @@ Usage
 Configurable options:
 
     set :stage,             "production"
-    set :rails_env,         "production"
+    set :env,               { fetch(:rack_env, fetch(:rails_env, fetch(:stage))) }
     set :application,       "app"
     set :server_name,       "domain.com"
     set :puma_init_name,    "#{fetch(:application)}-web"
