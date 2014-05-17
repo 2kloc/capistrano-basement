@@ -1,6 +1,5 @@
 namespace :load do
   task :defaults do
-    set :application, "app"
     set :server_name, "domain.com"
   end
 end

@@ -1,6 +1,6 @@
 namespace :load do
   task :defaults do
-    set :rails_env, "production"
+    set :rails_env, { fetch(:rack_env, fetch(:rails_env, fetch(:stage))) }
   end
 end
 
