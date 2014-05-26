@@ -7,5 +7,5 @@ namespace :foreman do
       end
     end
   end
-  before "deploy:publishing", "foreman:export"
+  after "deploy:publishing", "foreman:export"
 end
