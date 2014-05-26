@@ -2,7 +2,7 @@ upstream puma {
   server unix:<%= shared_path %>/tmp/sockets/puma.sock;
 }
 
-<% if !fetch(:ssl_certificate_filename).nil? %>
+<% if fetch(:ssl_certificate_filename) %>
 server {
   listen      80;
   server_name <%= fetch(:server_name) %>;
@@ -11,11 +11,10 @@ server {
 <% end %>
 
 server {
-  <% if !fetch(:ssl_certificate_filename).nil? %>
+  <% if fetch(:ssl_certificate_filename) %>
   listen               443 ssl;
   ssl_certificate      /etc/ssl/certs/<%= fetch(:ssl_certificate_filename) %>.pem;
   ssl_certificate_key  /etc/ssl/private/<%= fetch(:ssl_certificate_filename) %>.key;
-  server_name          <%= fetch(:server_name) %>;
   <% else %>
   listen               80;
   <% end %>
