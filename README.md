@@ -23,21 +23,20 @@ Usage
     require 'capistrano/basement'
 
     # Or if you want to pick specific tasks
-    require 'capistrano/basement/base'
+    require 'capistrano/basement/whenever'
     require 'capistrano/basement/nginx'
     ...
 
 Configurable options:
 
-    set :stage,             "production"
-    set :env,               { fetch(:rack_env, fetch(:rails_env, fetch(:stage))) }
-    set :application,       "app"
-    set :server_name,       "domain.com"
-    set :puma_init_name,    "#{fetch(:application)}-web"
-    set :puma_pid_path,     "#{shared_path}/tmp/pids/puma.pid"
-    set :sidekiq_init_name, "#{fetch(:application)}-worker"
-    set :sidekiq_pid_path,  "#{shared_path}/tmp/pids/sidekiq.pid"
-
+    set :env,                      -> { fetch(:rack_env, fetch(:rails_env, fetch(:stage))) }
+    set :server_name,              "domain.com"
+    set :ssl_certificate_filename, nil
+    set :puma_init_name,           "#{fetch(:application)}-web"
+    set :puma_pid_path,            "#{shared_path}/tmp/pids/puma.pid"
+    set :sidekiq_init_name,        "#{fetch(:application)}-worker"
+    set :sidekiq_pid_path,         "#{shared_path}/tmp/pids/sidekiq.pid"
+    set :whenever_id,              "app"
 
 Contributing
 ------

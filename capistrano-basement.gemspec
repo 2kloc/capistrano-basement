@@ -5,7 +5,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
   gem.name          = "capistrano-basement"
-  gem.version       = "1.0.2"
+  gem.version       = "1.0.3"
   gem.authors       = ["Mathieu Allaire"]
   gem.email         = ["mathieu@lodgem.com"]
   gem.description   = "Provides a basic capistrano rails stack"
