@@ -18,7 +18,7 @@ namespace :nginx do
   desc "Setup nginx configuration for this application"
   task :setup do
     on roles(:web) do
-      template "nginx.erb", "/tmp/nginx_conf", true
+      template "nginx.erb", "/tmp/nginx_conf", as_root: true
       sudo "mv /tmp/nginx_conf /etc/nginx/sites-available/#{fetch(:application)}"
       sudo "ln -nfs /etc/nginx/sites-available/#{fetch(:application)} /etc/nginx/sites-enabled/#{fetch(:application)}"
     end
