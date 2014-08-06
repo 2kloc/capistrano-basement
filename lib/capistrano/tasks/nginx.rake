@@ -1,7 +1,7 @@
 namespace :load do
   task :defaults do
     set :server_name, "www.domain.com domain.com"
-    set :force_www_url, "www.domain.com"
+    set :force_www_url, false
   end
 end
 
