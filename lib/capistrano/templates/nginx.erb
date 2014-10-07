@@ -4,7 +4,15 @@ upstream puma {
 
 <% if fetch(:force_www_url) %>
 server {
+  listen 80;
+  <% if fetch(:ssl_certificate_filename) %>
+  listen               443 ssl;
+  ssl_certificate      /etc/ssl/certs/<%= fetch(:ssl_certificate_filename) %>.pem;
+  ssl_certificate_key  /etc/ssl/private/<%= fetch(:ssl_certificate_filename) %>.key;
+  <% end %>
+
   server_name <%= fetch(:force_www_url).sub("www.", "") %>;
+
   return 301 $scheme://<%= fetch(:force_www_url) %>$request_uri;
 }
 <%end %>

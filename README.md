@@ -31,7 +31,7 @@ Configurable options:
 
     set :env,                      -> { fetch(:rack_env, fetch(:rails_env, fetch(:stage))) }
     set :force_www_url,            "www.domain.com"
-    set :server_name,              "www.domain.com domain.com"
+    set :server_name,              "www.domain.com"
     set :ssl_certificate_filename, nil
     set :puma_init_name,           "#{fetch(:application)}-web"
     set :puma_pid_path,            "#{shared_path}/tmp/pids/puma.pid"
