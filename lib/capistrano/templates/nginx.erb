@@ -25,6 +25,27 @@ server {
 }
 <% end %>
 
+<% if fetch(:redirect_urls) %>
+  <% fetch(:redirect_urls).each do |url| %>
+    server {
+      listen 80;
+      <% if fetch(:ssl_certificate_filename) %>
+      listen               443 ssl;
+      ssl_certificate      /etc/ssl/certs/<%= fetch(:ssl_certificate_filename) %>.pem;
+      ssl_certificate_key  /etc/ssl/private/<%= fetch(:ssl_certificate_filename) %>.key;
+      <% end %>
+
+      server_name <%= url %>;
+
+      <% if fetch(:force_www_url) %>
+        return 301 $scheme://<%= fetch(:force_www_url) %>$request_uri;
+      <% else %>
+        return 301 $scheme://<%= fetch(:server_name) %>$request_uri;
+      <% end %>
+    }
+  <% end %>
+<%end %>
+
 server {
   <% if fetch(:ssl_certificate_filename) %>
   listen               443 ssl;
